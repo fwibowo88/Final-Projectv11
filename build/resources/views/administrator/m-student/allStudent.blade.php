@@ -25,9 +25,22 @@
 
 @section('pageContent')
 <div class="container-fluid">
-  <div class="card">
+  @if (session('status'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('status') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+  <div class="card card-primary card-outline">
     <div class="card-header">
-      <h3 class="card-title">All Master Student in Database</h3>
+      <div class="col-sm-10">
+        <h3 class="card-title">All Master Student in Database</h3>
+      </div>
+      <div class="col-sm-1 float-right">
+        <button type="button" class="btn btn-primary" name="button">Add Data</button>
+      </div>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -35,39 +48,56 @@
         <thead>
         <tr class="text-center">
           <th>#</th>
+          <th>NIS</th>
           <th>Photo</th>
-          <th>NIK</th>
-          <th>Full Name</th>
-          <th>Email</th>
+          <th>Student Name</th>
           <th>Class</th>
+          <th>Program</th>
+          <th>Status</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($students as $student)
         <tr>
-          <td>1</td>
-          <td class="text-center"><img src="{{asset('asset/dist/img/user2-160x160.jpg')}}" height="50px" width="50px" alt="profile"></td>
-          <td>12345678</td>
-          <td>Fernando Wibowo</td>
-          <td>fernando@smkstlouis.sch.id</td>
-          <td>X TKJ 1</td>
+          <td>{{$student->id}}</td>
+          <td>{{$student->nis}}</td>
+          <td class="text-center"><img src="{{asset('app-data/student/photo/s_img-').$student->nik}}" height="40" width="40" alt="s_img{{$student->nik}}"></td>
+          <td>{{$student->fname ." ".$student->lname}}</td>
+          <td>$student->grade->name</td>
+          <td>$student->program->name</td>
+          @if($student->status == 'active')
+          <td><span class="badge badge-success">{{ucfirst($student->status)}}</span></td>
+          @else
+          <td><span class="badge badge-warning">{{ucfirst($student->status)}}</span></td>
+          @endif
           <td>
-            <div class="btn-group">
-              <a class="btn btn-primary" href="#">AA</a>
-              <a class="btn btn-warning" href="#">BB</a>
-              <a class="btn btn-danger" href="#">CC</a>
-            </div>
+            <form role="form" action="{{route('student.destroy',$student->id)}}" method="POST">
+              {{csrf_field()}}
+              {{method_field('DELETE')}}
+              <div class="btn-group">
+                @if($student->status == 'active')
+                <a class="btn btn-primary" href="{{route('student.edit',$student->id)}}"><i class="fa fa-edit"></i></a>
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                @else
+                <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
+                <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
+                @endif
+              </div>
+            </form>
           </td>
         </tr>
+        @endforeach
         </tbody>
         <tfoot>
         <tr>
           <th>#</th>
+          <th>NIS</th>
           <th>Photo</th>
-          <th>NIK</th>
-          <th>Full Name</th>
-          <th>Email</th>
+          <th>Student Name</th>
           <th>Class</th>
+          <th>Program</th>
+          <th>Status</th>
           <th>Action</th>
         </tr>
         </tfoot>

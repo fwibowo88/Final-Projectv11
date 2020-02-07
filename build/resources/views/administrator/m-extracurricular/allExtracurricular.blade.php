@@ -25,9 +25,22 @@
 
 @section('pageContent')
 <div class="container-fluid">
-  <div class="card">
+  @if (session('status'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('status') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+  <div class="card card-primary card-outline">
     <div class="card-header">
-      <h3 class="card-title">All Master Extracurricular in Database</h3>
+      <div class="col-sm-10">
+        <h3 class="card-title">All Master Extracurricular in Database</h3>
+      </div>
+      <div class="col-sm-1 float-right">
+        <button type="button" class="btn btn-primary" name="button">Add Data</button>
+      </div>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -35,31 +48,41 @@
         <thead>
         <tr class="text-center">
           <th>#</th>
-          <th>Name</th>
+          <th>Extracurricular Name</th>
           <th>Description</th>
           <th>Coach</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($extracurriculars as $extracurricular)
         <tr>
-          <td>1</td>
-          <td>Badminton</td>
-          <td>Extracurricular Badminton</td>
-          <td>John Doe</td>
+          <td>{{$extracurricular->id}}</td>
+          <td>{{$extracurricular->name}}</td>
+          <td>{{$extracurricular->description}}</td>
+          <td>{{$extracurricular->employee->fname ." ".$extracurricular->employee->lname}}</td>
           <td>
-            <div class="btn-group">
-              <a class="btn btn-primary" href="#">AA</a>
-              <a class="btn btn-warning" href="#">BB</a>
-              <a class="btn btn-danger" href="#">CC</a>
-            </div>
+            <form role="form" action="{{route('extracurricular.destroy',$extracurricular->id)}}" method="POST">
+              {{csrf_field()}}
+              {{method_field('DELETE')}}
+              <div class="btn-group">
+                @if($extracurricular->status == 'active')
+                <a class="btn btn-primary" href="{{route('extracurricular.edit',$extracurricular->id)}}"><i class="fa fa-edit"></i></a>
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                @else
+                <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
+                <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
+                @endif
+              </div>
+            </form>
           </td>
         </tr>
+        @endforeach
         </tbody>
         <tfoot>
         <tr>
           <th>#</th>
-          <th>Name</th>
+          <th>Extracurricular Name</th>
           <th>Description</th>
           <th>Coach</th>
           <th>Action</th>

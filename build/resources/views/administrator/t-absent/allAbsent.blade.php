@@ -19,15 +19,28 @@
 </script>
 @endsection
 
-@section('titleBar','IIS | Transaction Absent')
+@section('titleBar','IIS | Master Bank')
 
-@section('pageTitle','Transaction Absent')
+@section('pageTitle','Master Bank')
 
 @section('pageContent')
 <div class="container-fluid">
-  <div class="card">
+  @if (session('status'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('status') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+  <div class="card card-primary card-outline">
     <div class="card-header">
-      <h3 class="card-title">All Absent Record Database</h3>
+      <div class="col-sm-10">
+        <h3 class="card-title">All Master Bank in Database</h3>
+      </div>
+      <div class="col-sm-1 float-right">
+        <button type="button" class="btn btn-primary" name="button">Add Data</button>
+      </div>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -35,38 +48,39 @@
         <thead>
         <tr class="text-center">
           <th>#</th>
-          <th>Date</th>
-          <th>NIK</th>
-          <th>Student Name</th>
-          <th>Type</th>
+          <th>Bank Name</th>
           <th>Description</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($banks as $bank)
         <tr>
-          <td>1</td>
-          <td>2020-01-01</td>
-          <td>12345678</td>
-          <td>Fernando Wibowo</td>
-          <td>Sick</td>
-          <td>Absent Description</td>
+          <td>{{$bank->id}}</td>
+          <td>{{$bank->name}}</td>
+          <td>{{$bank->description}}</td>
           <td>
-            <div class="btn-group">
-              <a class="btn btn-primary" href="#">AA</a>
-              <a class="btn btn-warning" href="#">BB</a>
-              <a class="btn btn-danger" href="#">CC</a>
-            </div>
+            <form role="form" action="{{route('bank.destroy',$bank->id)}}" method="POST">
+              {{csrf_field()}}
+              {{method_field('DELETE')}}
+              <div class="btn-group">
+                @if($bank->status == 'active')
+                <a class="btn btn-primary" href="{{route('bank.edit',$bank->id)}}"><i class="fa fa-edit"></i></a>
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                @else
+                <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
+                <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
+                @endif
+              </div>
+            </form>
           </td>
         </tr>
+        @endforeach
         </tbody>
         <tfoot>
         <tr>
           <th>#</th>
-          <th>Date</th>
-          <th>NIK</th>
-          <th>Student Name</th>
-          <th>Type</th>
+          <th>Bank Name</th>
           <th>Description</th>
           <th>Action</th>
         </tr>
