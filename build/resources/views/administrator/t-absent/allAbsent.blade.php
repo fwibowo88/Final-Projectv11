@@ -19,9 +19,9 @@
 </script>
 @endsection
 
-@section('titleBar','IIS | Master Bank')
+@section('titleBar','IIS | Absent Record')
 
-@section('pageTitle','Master Bank')
+@section('pageTitle','Absent Record')
 
 @section('pageContent')
 <div class="container-fluid">
@@ -36,10 +36,10 @@
   <div class="card card-primary card-outline">
     <div class="card-header">
       <div class="col-sm-10">
-        <h3 class="card-title">All Master Bank in Database</h3>
+        <h3 class="card-title">All Absent Record in Database</h3>
       </div>
       <div class="col-sm-1 float-right">
-        <button type="button" class="btn btn-primary" name="button">Add Data</button>
+        <button type="button" class="btn btn-primary" name="button">Add Record</button>
       </div>
     </div>
     <!-- /.card-header -->
@@ -48,28 +48,40 @@
         <thead>
         <tr class="text-center">
           <th>#</th>
-          <th>Bank Name</th>
-          <th>Description</th>
+          <th>Start Date</th>
+          <th>Student Name-NIS</th>
+          <th>Type</th>
+          <th>Status</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($banks as $bank)
+        @foreach($absents as $absent)
         <tr>
-          <td>{{$bank->id}}</td>
-          <td>{{$bank->name}}</td>
-          <td>{{$bank->description}}</td>
+          <td>{{$absent->id}}</td>
+          <td>{{$absent->start_date}}</td>
+          <td>{{$absent->student->fname ." ".$absent->student->lname." - ".$absent->student->nis}}</td>
+          <td class="text-center">{{$absent->type}}</td>
+          @if($absent->status == 'confirmed')
+          <td><span class="badge badge-success">{{ucfirst($absent->status)}}</span></td>
+          @else
+          <td><span class="badge badge-warning">{{ucfirst($absent->status)}}</span></td>
+          @endif
           <td>
-            <form role="form" action="{{route('bank.destroy',$bank->id)}}" method="POST">
+            <form role="form" action="{{route('absent-record.destroy',$absent->id)}}" method="POST">
               {{csrf_field()}}
               {{method_field('DELETE')}}
               <div class="btn-group">
-                @if($bank->status == 'active')
-                <a class="btn btn-primary" href="{{route('bank.edit',$bank->id)}}"><i class="fa fa-edit"></i></a>
+                @if($absent->status == 'pending')
+                <a class="btn btn-success" href="{{route('absent-record.confirmed',$absent->id)}}"><i class="fa fa-check"></i></a>
+                <a class="btn btn-primary" href="{{route('absent-record.edit',$absent->id)}}"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-info" href="{{route('absent-record.show',$absent->id)}}"><i class="fa fa-eye"></i></a>
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 @else
-                <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
-                <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
+                <a class="btn btn-success"><i class="fa fa-check"></i></a>
+                <a class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-info" href="{{route('absent-record.show',$absent->id)}}"><i class="fa fa-eye"></i></a>
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 @endif
               </div>
             </form>
@@ -80,8 +92,10 @@
         <tfoot>
         <tr>
           <th>#</th>
-          <th>Bank Name</th>
-          <th>Description</th>
+          <th>Start Date</th>
+          <th>Student Name-NIS</th>
+          <th>Type</th>
+          <th>Status</th>
           <th>Action</th>
         </tr>
         </tfoot>

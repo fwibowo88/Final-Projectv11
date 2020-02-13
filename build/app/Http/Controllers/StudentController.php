@@ -67,11 +67,12 @@ class StudentController extends Controller
         $student->blood_type = $request->studentBlood;
         $student->gr_from = $request->studentOSchool;
         $student->notes = $request->studentNotes;
-        $student->photo = "";
+        // $student->photo = "1";
         $student->religion_id = $request->studentReligion;
         $student->class_id = $request->studentClass;
         $student->bank_id = $request->studentBank;
         $student->save();
+
         if(is_null($request->studentPhoto))
         {
 

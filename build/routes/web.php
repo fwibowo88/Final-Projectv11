@@ -15,9 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/absent-record/{id}/confirmed','AbsentController@confirmed')->name('absent-record.confirmed'); //Confirmation Absent
+
 Route::resource('/bank','BankController');
 Route::resource('/religion','ReligionController');
 Route::resource('/department','DepartmentController');
+
 
 Route::resource('/program','ProgramController');
 Route::resource('/subject','SubjectController');
@@ -34,12 +38,3 @@ Route::resource('/guardian','GuardianController');
 Route::resource('/student','StudentController');
 Route::resource('/absent-record','AbsentController');
 Route::resource('/medical-record','MedicalController');
-
-
-
-
-// Route::resource('/student','StudentController');
-// Route::resource('/academic-year','AcademicYearController');
-// Route::resource('/employee','EmployeeController');
-// Route::resource('/subject','SubjectController');
-// Route::resource('/program','ProgramController');

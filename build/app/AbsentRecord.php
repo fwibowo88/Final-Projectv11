@@ -11,6 +11,7 @@ class AbsentRecord extends Model
     {
       return $this->belongsTo('App\Student');
     }
+    
     public function employee()
     {
       return $this->belongsTo('App\Employee');

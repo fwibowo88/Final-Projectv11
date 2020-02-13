@@ -31,8 +31,7 @@ class AbsentController extends Controller
     {
         //
         $students = Student::all();
-        $employees = Employee::all();
-        return view('administrator.t-absent.addAbsent',['students'=>$students,'employees'=>$employees]);
+        return view('administrator.t-absent.addAbsent',['students'=>$students]);
     }
 
     /**
@@ -49,11 +48,11 @@ class AbsentController extends Controller
         $absent->end_date = $request->absentEdDate;
         $absent->type = $request->absentType;
         $absent->description = $request->absentDescription;
-        $absent->status = $request->absentStatus;
+        $absent->status = 'confirmed';
         $absent->student_id = $request->absentStudent;
-        $absent->employee_id = 1;
+        $absent->employee_id = 1;//Binding to Auth User
         $absent->save();
-        return redirect('absent-Record')->with('status','Absent Record Saved Successfully');
+        return redirect('/absent-record')->with('status','Absent Record Saved Successfully');
     }
 
     /**
@@ -65,7 +64,8 @@ class AbsentController extends Controller
     public function show($id)
     {
         //
-
+        $absent = AbsentRecord::find($id);
+        return view('administrator.t-absent.detailAbsent',['absent'=>$absent]);
     }
 
     /**
@@ -77,8 +77,9 @@ class AbsentController extends Controller
     public function edit($id)
     {
         //
+        $students = Student::all();
         $absent = AbsentRecord::find($id);
-        return view('administrator.t-absent.editAbsent');
+        return view('administrator.t-absent.editAbsent',['students'=>$students,'absent'=>$absent]);
     }
 
     /**
@@ -96,11 +97,31 @@ class AbsentController extends Controller
         $absent->end_date = $request->absentEdDate;
         $absent->type = $request->absentType;
         $absent->description = $request->absentDescription;
-        $absent->status = $request->absentStatus;
+        $absent->status = 'confirmed';
         $absent->student_id = $request->absentStudent;
-        $absent->employee_id = 1;
+        $absent->employee_id = 1; //BIND TO AUTH USER
         $absent->save();
         return redirect('/absent-record')->with('status','Success Edit Absent Record');
+        $tmpAction = $_GET['action'];
+        if($tmpAction == 'edit')
+        {
+          return $tmpAction;
+        }
+        else if($tmpAction == 'confirmed')
+        {
+          return 'confirmed';
+          // $absent = AbsentRecord::find($id);
+          // $absent->status = 'confirmed';
+          // $absent->save();
+        }
+    }
+    public function confirmed($id)
+    {
+      $absent = AbsentRecord::find($id);
+      $absent->status = 'confirmed';
+      $absent->employee_id = 1; //Binding to User Auth;
+      $absent->save();
+      return redirect('absent-record');
     }
 
     /**

@@ -36,7 +36,7 @@ class CreateStudentsTable extends Migration
             $table->string('bank_acc')->nullable();
             $table->enum('blood_type',['A','B','O','AB']);
             $table->double('height')->nullable();
-            $table->doubel('weight')->nullable();
+            $table->double('weight')->nullable();
             $table->string('gr_from');
             $table->enum('status',['reg','active','inactive','suspend','alumni']);
             $table->text('notes')->nullable();
