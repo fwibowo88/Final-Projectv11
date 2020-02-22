@@ -17,7 +17,7 @@ class CreateAbsentRecordsTable extends Migration
             $table->increments('id');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('type',['A','I','S']);
+            $table->enum('type',['A','I','S','L']);
             $table->text('description')->nullable();
             $table->enum('status',['confirmed','pending']);
             $table->text('receipt')->nullable();
@@ -29,6 +29,9 @@ class CreateAbsentRecordsTable extends Migration
             //Foreign Key to Employee Table
             $table->unsignedInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees');
+            //Foreign Key to AcademicYear
+            $table->unsignedInteger('year_id');
+            $table->foreign('year_id')->references('id')->on('academic_years');
         });
     }
 

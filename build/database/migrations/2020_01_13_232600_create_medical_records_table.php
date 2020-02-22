@@ -27,6 +27,10 @@ class CreateMedicalRecordsTable extends Migration
             //Foreign Key to Employee Table
             $table->unsignedInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees');
+            //Foreign Key to AcademicYear
+            $table->unsignedInteger('year_id');
+            $table->foreign('year_id')->references('id')->on('academic_years');
+
         });
     }
 
