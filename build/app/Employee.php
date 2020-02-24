@@ -9,7 +9,7 @@ class Employee extends Model
     //
     public function department()
     {
-      return $this->belongsTo('App\Department');
+      return $this->belongsToMany('App\Department')->withTimestamps()->withPivot('is_primary');
     }
     public function grades()
     {

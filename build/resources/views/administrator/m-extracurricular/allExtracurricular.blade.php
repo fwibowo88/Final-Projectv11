@@ -57,7 +57,7 @@
         <tbody>
         @foreach($extracurriculars as $extracurricular)
         <tr>
-          <td>{{$extracurricular->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$extracurricular->name}}</td>
           <td>{{$extracurricular->description}}</td>
           <td>{{$extracurricular->employee->fname ." ".$extracurricular->employee->lname}}</td>

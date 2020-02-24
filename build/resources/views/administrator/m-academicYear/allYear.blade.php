@@ -58,7 +58,7 @@
         <tbody>
         @foreach($years as $year)
         <tr>
-          <td>{{$year->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$year->name}}</td>
           <td>{{$year->start_date}}</td>
           <td>{{$year->end_date}}</td>

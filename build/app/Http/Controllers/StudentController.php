@@ -7,6 +7,7 @@ use App\Religion;
 use App\Bank;
 use App\Grade;
 use App\Student;
+use App\Guardian;
 
 class StudentController extends Controller
 {
@@ -82,6 +83,23 @@ class StudentController extends Controller
           $file = $request->studentPhoto;
           $file->move('system-data',"s_img-".$request->studentNik);
         }
+
+        $sibling = new Guardian();
+        $sibling->fname = $request->siblingFName;
+        $sibling->lname = $request->siblingLName;
+        $sibling->b_place = $request->siblingBPlace;
+        $sibling->b_date = $request->siblingBDate;
+        $sibling->address = $request->siblingAddress;
+        $sibling->relation = $request->siblingRelation;
+        $sibling->email = $request->siblingEmail;
+        $sibling->phone = $request->siblingPhone;
+        $sibling->password = bcrypt('helloWorld');
+        $sibling->education = $request->siblingEducation;
+        $sibling->job = $request->siblingJob;
+        $sibling->relation = $request->siblingRelation;
+        $sibling->religion_id = $request->siblingReligion;
+        $sibling->student_id = $student->id;
+        $sibling->save();
         return redirect('/student')->with('status','Master Student Saved Successfully !');
     }
 
@@ -95,6 +113,7 @@ class StudentController extends Controller
     {
         //
         $student = Student::find($id);
+        
         return view('administrator.m-student.detailStudent',['student'=>$student]);
     }
 

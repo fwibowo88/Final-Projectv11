@@ -13,6 +13,6 @@ class Department extends Model
     }
     public function employees()
     {
-      return $this->hasMany('App\Employee');
+      return $this->belongsToMany('App\Employee')->withTimestamps()->withPivot('is_primary');
     }
 }

@@ -57,7 +57,7 @@
         <tbody>
         @foreach($subjects as $subject)
         <tr>
-          <td>{{$subject->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$subject->code}}</td>
           <td>{{$subject->description}}</td>
           <td>{{$subject->min_Point}}</td>

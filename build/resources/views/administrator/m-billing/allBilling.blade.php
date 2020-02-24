@@ -57,7 +57,7 @@
         <tbody>
         @foreach($billings as $billing)
         <tr>
-          <td>{{$billing->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$billing->name}}</td>
           <td>{{$billing->description}}</td>
           <td>{{$billing->price}}</td>

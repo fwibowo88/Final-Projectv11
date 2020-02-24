@@ -58,7 +58,7 @@
         <tbody>
         @foreach($absents as $absent)
         <tr>
-          <td>{{$absent->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$absent->start_date}}</td>
           <td>{{$absent->student->fname ." ".$absent->student->lname." - ".$absent->student->nis}}</td>
           <td class="text-center">{{$absent->type}}</td>

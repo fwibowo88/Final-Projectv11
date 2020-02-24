@@ -59,10 +59,12 @@
         <tbody>
         @foreach($employees as $employee)
         <tr>
-          <td>{{$employee->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$employee->nik}}</td>
           <td>{{$employee->fname ." ".$employee->lname}}</td>
-          <td>{{$employee->department->name}}</td>
+          <td>@foreach($employee->department as $department)
+            <span class="badge badge-info">{{$department->name}}</span>
+            @endforeach</td>
           <td>{{$employee->email}}</td>
           @if($employee->status == 'active')
           <td><span class="badge badge-success">{{ucfirst($employee->status)}}</span></td>

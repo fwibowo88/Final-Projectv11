@@ -56,7 +56,7 @@
         <tbody>
         @foreach($religions as $religion)
         <tr>
-          <td>{{$religion->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$religion->name}}</td>
           <td>{{$religion->description}}</td>
           <td>

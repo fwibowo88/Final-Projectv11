@@ -19,9 +19,9 @@
 </script>
 @endsection
 
-@section('titleBar','IIS | Master Bank')
+@section('titleBar','IIS | Master guardian')
 
-@section('pageTitle','Master Bank')
+@section('pageTitle','Master guardian')
 
 @section('pageContent')
 <div class="container-fluid">
@@ -36,7 +36,7 @@
   <div class="card card-primary card-outline">
     <div class="card-header">
       <div class="col-sm-10">
-        <h3 class="card-title">All Master Bank in Database</h3>
+        <h3 class="card-title">All Master Guardian in Database</h3>
       </div>
       <div class="col-sm-1 float-right">
         <button type="button" class="btn btn-primary" name="button">Add Data</button>
@@ -48,27 +48,31 @@
         <thead>
         <tr class="text-center">
           <th>#</th>
-          <th>Bank Name</th>
-          <th>Description</th>
+          <th>Name</th>
+          <th>Student-NIS</th>
+          <th>Relation</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($banks as $bank)
+        @foreach($guardians as $guardian)
         <tr>
-          <td>{{$bank->id}}</td>
-          <td>{{$bank->name}}</td>
-          <td>{{$bank->description}}</td>
+          <td>{{$loop->iteration}}</td>
+          <td>{{$guardian->fname." ".$guardian->fname}}</td>
+          <td><a href="{{route('student.show',$guardian->student->id)}}">{{$guardian->student->fname." ".$guardian->student->lname}}</a></td>
+          <td>{{ucfirst($guardian->relation)}}</td>
           <td>
-            <form role="form" action="{{route('bank.destroy',$bank->id)}}" method="POST">
+            <form role="form" action="{{route('guardian.destroy',$guardian->id)}}" method="POST">
               {{csrf_field()}}
               {{method_field('DELETE')}}
               <div class="btn-group">
-                @if($bank->status == 'active')
-                <a class="btn btn-primary" href="{{route('bank.edit',$bank->id)}}"><i class="fa fa-edit"></i></a>
+                @if($guardian->status == 'active')
+                <a class="btn btn-primary" href="{{route('guardian.edit',$guardian->id)}}"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-warning" href="#"><i class="fa fa-envelope"></i></a>
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 @else
                 <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-warning" href="#"><i class="fa fa-envelope"></i></a>
                 <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                 @endif
               </div>
@@ -80,8 +84,9 @@
         <tfoot>
         <tr>
           <th>#</th>
-          <th>Bank Name</th>
-          <th>Description</th>
+          <th>Name</th>
+          <th>Student-NIS</th>
+          <th>Relation</th>
           <th>Action</th>
         </tr>
         </tfoot>

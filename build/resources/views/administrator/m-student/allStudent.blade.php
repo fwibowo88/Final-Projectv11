@@ -53,6 +53,7 @@
           <th>Student Name</th>
           <th>Class</th>
           <th>Program</th>
+          <th>Guardian</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -60,7 +61,7 @@
         <tbody>
         @foreach($students as $student)
         <tr>
-          <td>{{$student->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$student->nis}}</td>
           <td class="text-center"><img src="{{asset('app-data/student/photo/s_img-').$student->nik}}" height="40" width="40" alt="s_img{{$student->nik}}"></td>
           <td>{{$student->fname ." ".$student->lname}}</td>
@@ -71,6 +72,7 @@
           @else
           <td><span class="badge badge-warning">{{ucfirst($student->status)}}</span></td>
           @endif
+          <td>{{$student->guardians[0]->fname." ".$student->guardians[0]->lname}}</td>
           <td>
             <form role="form" action="{{route('student.destroy',$student->id)}}" method="POST">
               {{csrf_field()}}
@@ -78,9 +80,11 @@
               <div class="btn-group">
                 @if($student->status == 'active')
                 <a class="btn btn-primary" href="{{route('student.edit',$student->id)}}"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-warning" href="{{route('student.show',$student->id)}}"><i class="fa fa-eye"></i></a>
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 @else
                 <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-secondary" href="#"><i class="fa fa-eye"></i></a>
                 <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                 @endif
               </div>
@@ -97,6 +101,7 @@
           <th>Student Name</th>
           <th>Class</th>
           <th>Program</th>
+          <th>Guardian</th>
           <th>Status</th>
           <th>Action</th>
         </tr>

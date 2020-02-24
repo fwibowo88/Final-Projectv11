@@ -18,6 +18,20 @@ $(document).ready(function() {
 });
 </script>
 
+<!-- Email AutoFill -->
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#fname ,#lname').keyup(function(){
+    var eFname = $('#fname').val().toLowerCase();
+    var eLname = $('#lname').val().toLowerCase();
+
+    $('#email').val(eFname+eLname+'@smkstlouis.sch.id');
+
+  });
+});
+</script>
+
+<!-- Password Matcher -->
 <script type="text/javascript">
 $(document).ready(function(){
   $('#Password ,#RePassword').keyup(function(){
@@ -85,13 +99,13 @@ function passwordMatch()
         <div class="col-6">
           <div class="form-group">
             <label>First Name</label>
-            <input type="text" class="form-control" name="employeeFname" placeholder="Ex : Jane" required>
+            <input type="text" class="form-control" id=fname name="employeeFname" placeholder="Ex : Jane" required>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
             <label>Last Name</label>
-            <input type="text" class="form-control" name="employeeLname" placeholder="Ex : Doe" required>
+            <input type="text" class="form-control" id=lname name="employeeLname" placeholder="Ex : Doe" required>
           </div>
         </div>
       </div>
@@ -109,7 +123,7 @@ function passwordMatch()
         <div class="col-6">
           <div class="form-group">
             <label>Email</label>
-            <input type="email" class="form-control" name="employeeMail" placeholder="jane@smkstlouis.sch.id" required>
+            <input type="email" class="form-control" id="email" name="employeeMail" placeholder="jane@smkstlouis.sch.id" required>
           </div>
         </div>
       </div>

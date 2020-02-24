@@ -26,8 +26,8 @@
     </div>
     <!-- /.card-header -->
     <form role="form" action="{{route('department.update',$department->id)}}" method="post">
-    {{method_field('PUT')}}
-    @csrf
+      {{method_field('PUT')}}
+      {{csrf_field()}}
     <div class="card-body">
       <div class="form-group">
         <label>Department Name</label>
@@ -45,7 +45,7 @@
         <button type="submit" class="btn btn-primary" name="button">Save</button>
       </div>
     </div>
-    </form>
+  </form>
   </div>
 </div>
 @endsection

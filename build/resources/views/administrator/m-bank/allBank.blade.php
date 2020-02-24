@@ -56,7 +56,7 @@
         <tbody>
         @foreach($banks as $bank)
         <tr>
-          <td>{{$bank->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$bank->name}}</td>
           <td>{{$bank->description}}</td>
           <td>

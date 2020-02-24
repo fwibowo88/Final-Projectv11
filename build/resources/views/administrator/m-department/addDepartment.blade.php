@@ -12,21 +12,21 @@
 
 @endsection
 
-@section('titleBar','IIS | Master Department')
+@section('titleBar','IIS | Master Bank')
 
-@section('pageTitle','Master Department')
+@section('pageTitle','Master Bank')
 
 @section('pageContent')
 <div class="container-fluid">
   <div class="card card-primary">
     <div class="card-header">
       <div class="col-sm-10">
-        <h2 class="card-title">Create Master Department</h2>
+        <h2 class="card-title">Create Master Bank</h2>
       </div>
     </div>
     <!-- /.card-header -->
     <form role="form" action="{{route('department.store')}}" method="post">
-    @csrf
+      {{csrf_field()}}
     <div class="card-body">
       <div class="form-group">
         <label>Department Name</label>
@@ -44,7 +44,7 @@
         <button type="submit" class="btn btn-primary" name="button">Save</button>
       </div>
     </div>
-    </form>
+  </form>
   </div>
 </div>
 @endsection

@@ -24,10 +24,6 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->enum('status',['active','inactive']);
             $table->timestamps();
-
-            //Foreign Key to Department Table
-            $table->unsignedInteger('department_id');
-            $table->foreign('department_id')->references('id')->on('departments');
         });
     }
 

@@ -48,17 +48,19 @@
         <thead>
         <tr class="text-center">
           <th>#</th>
-          <th>Deparment Name</th>
+          <th>Department Name</th>
           <th>Description</th>
+          <th>Staff</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
         @foreach($departments as $department)
         <tr>
-          <td>{{$department->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$department->name}}</td>
           <td>{{$department->description}}</td>
+          <td class="text-center">{{$department->employees->count()}}</td>
           <td>
             <form role="form" action="{{route('department.destroy',$department->id)}}" method="POST">
               {{csrf_field()}}
@@ -80,8 +82,9 @@
         <tfoot>
         <tr>
           <th>#</th>
-          <th>Name</th>
+          <th>Department Name</th>
           <th>Description</th>
+          <th>Staff</th>
           <th>Action</th>
         </tr>
         </tfoot>

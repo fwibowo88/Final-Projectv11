@@ -56,7 +56,7 @@
         <tbody>
         @foreach($achievments as $achievment)
         <tr>
-          <td>{{$achievment->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$achievment->name}}</td>
           <td>{{$achievment->description}}</td>
           <td>

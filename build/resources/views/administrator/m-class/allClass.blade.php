@@ -58,7 +58,7 @@
         <tbody>
         @foreach($classes as $class)
         <tr>
-          <td>{{$class->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$class->name}}</td>
           <td>{{$class->description}}</td>
           <td>{{$class->employee->fname ." ".$class->employee->lname}}</td>

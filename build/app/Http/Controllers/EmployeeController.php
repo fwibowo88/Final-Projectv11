@@ -49,8 +49,8 @@ class EmployeeController extends Controller
         $employee->address = $request->employeeAddress;
         $employee->email = $request->employeeMail;
         $employee->phone = $request->employeePhone;
-        $employee->department_id = $request->employeeDepartment;
         $employee->save();
+        $employee->department()->sync([$request->employeeDepartment]);
         return redirect('/employee')->with('status','Master Employee Saved Succesfully !');
     }
 
@@ -97,8 +97,8 @@ class EmployeeController extends Controller
         $employee->address = $request->employeeAddress;
         $employee->email = $request->employeeMail;
         $employee->phone = $request->employeePhone;
-        $employee->department_id = $request->employeeDepartment;
         $employee->save();
+        $employee->department()->sync($request->employeeDepartment);
         return redirect('/employee')->with('status','Success Edit Master Employee');
     }
 

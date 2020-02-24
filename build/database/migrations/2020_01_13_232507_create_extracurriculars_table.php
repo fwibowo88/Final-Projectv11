@@ -15,7 +15,7 @@ class CreateExtracurricularsTable extends Migration
     {
         Schema::create('extracurriculars', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',45);
             $table->text('description')->nullable();
             $table->enum('status',['active','inactive']);
             $table->timestamps();

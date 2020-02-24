@@ -36,6 +36,21 @@ function passwordMatch()
   }
 }
 </script>
+<script type="text/javascript">
+function getStudentAddress()
+{
+    var tmAddress = $('#student-address').val();
+    $('#sibling-address').val(tmAddress);
+}
+</script>
+
+<script type="text/javascript">
+$("#moreFiles").hide();
+$(".addButton").click(function(){
+    var html = $("#moreFiles").html();
+    $("#firstFile").append(html);
+});
+</script>
 @endsection
 
 @section('titleBar','IIS | Master Student')
@@ -43,6 +58,7 @@ function passwordMatch()
 @section('pageTitle','Master Student')
 
 @section('pageContent')
+
 <div class="container-fluid">
   <div class="card card-primary">
     <div class="card-header">
@@ -65,7 +81,7 @@ function passwordMatch()
             <a class="nav-link" id="custom-content-below-sibling-tab" data-toggle="pill" href="#custom-content-below-sibling" role="tab" aria-controls="custom-content-below-sibling" aria-selected="false">Sibling</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#custom-content-below-settings" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">Other</a>
+            <a class="nav-link" id="custom-content-below-files-tab" data-toggle="pill" href="#custom-content-below-files" role="tab" aria-controls="custom-content-below-files-tab" aria-selected="false">File & Document</a>
           </li>
         </ul>
         <div class="tab-content" id="custom-content-below-tabContent">
@@ -94,13 +110,13 @@ function passwordMatch()
               <div class="col-6">
                 <div class="form-group">
                   <label>First Name</label>
-                  <input type="text" class="form-control" name="studentFname" required>
+                  <input type="text" class="form-control" name="studentFname" placeholder="John" required>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group">
                   <label>Last Name</label>
-                  <input type="text" class="form-control" name="studentLname" required>
+                  <input type="text" class="form-control" name="studentLname" placeholder="Doe" required>
                 </div>
               </div>
             </div>
@@ -108,7 +124,7 @@ function passwordMatch()
               <div class="col-6">
                 <div class="form-group">
                   <label>Birth Place</label>
-                  <input type="text" class="form-control" name="studentBPlace" required>
+                  <input type="text" class="form-control" name="studentBPlace" placeholder="Surabaya" required>
                 </div>
               </div>
               <div class="col-6">
@@ -122,7 +138,7 @@ function passwordMatch()
               <div class="col-4">
                 <div class="form-group">
                   <label>Address</label>
-                  <textarea class="form-control" name="studentAddress" rows="4"></textarea>
+                  <textarea class="form-control" id="student-address" name="studentAddress" placeholder="Jl Tidar No 117" rows="4"></textarea>
                 </div>
               </div>
               <div class="col-2">
@@ -138,11 +154,11 @@ function passwordMatch()
               <div class="col-3">
                 <div class="form-group">
                   <label>City</label>
-                  <input type="text" class="form-control" name="studentCity" required>
+                  <input type="text" class="form-control" name="studentCity" placeholder="Surabaya" required>
                 </div>
                 <div class="form-group">
                   <label>Province</label>
-                  <input type="text" class="form-control" name="studentProvince" required>
+                  <input type="text" class="form-control" name="studentProvince" placeholder="Jawa Timur" required>
                 </div>
               </div>
               <div class="col-3">
@@ -162,13 +178,13 @@ function passwordMatch()
               <div class="col-6">
                 <div class="form-group">
                   <label>Email</label>
-                  <input type="email" name="studentEmail" class="form-control" required>
+                  <input type="email" name="studentEmail" class="form-control" placeholder="john@smkstlouis.sch.id" required>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group">
                   <label>Phone</label>
-                  <input type="text" name="studentPhone" class="form-control" required>
+                  <input type="text" name="studentPhone" class="form-control" minlength="10" placeholder="+628123456789" required>
                 </div>
               </div>
             </div>
@@ -238,8 +254,8 @@ function passwordMatch()
               </div>
               <div class="col-6">
                 <div class="form-group">
-                  <label>Graduate Form</label>
-                  <input type="text" class="form-control" name="studentOSchool" required>
+                  <label>Graduate From</label>
+                  <input type="text" class="form-control" placeholder="SMP Kr Imanuel" name="studentOSchool" required>
                 </div>
                 <div class="form-group">
                   <div class="custom-file">
@@ -251,10 +267,134 @@ function passwordMatch()
             </div>
           </div>
           <div class="tab-pane fade" id="custom-content-below-sibling" role="tabpanel" aria-labelledby="custom-content-below-sibling-tab">
-             <h1>Coming Soon</h1>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Relation</label>
+                  <select class="form-control" name="siblingRelation" required>
+                    <option value="" selected>Please Select</option>
+                    <option value="father">Father</option>
+                    <option value="mother">Mother</option>
+                    <option value="guardian">Guardian</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input class="form-control" type="text" name="siblingFName" placeholder="John" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input class="form-control" type="text" name="siblingLName" placeholder="Doe" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Birth Place</label>
+                  <input class="form-control" type="text" name="siblingBPlace" placeholder="Surabaya" required>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Birth Date</label>
+                  <input class="form-control" type="date" name="siblingBDate" required>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Religion</label>
+                  <select class="form-control" name="siblingReligion" required>
+                    @foreach($religions as $religion)
+                    <option value="{{$religion->id}}">{{$religion->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Address</label><small> <a href="#" onclick="getStudentAddress()"><i class="fa fa-copy"></i>Get Data from Student</a></small>
+                  <textarea class="form-control" id="sibling-address" name="siblingAddress" rows="4"></textarea>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input class="form-control" type="text" minlength="10" name="siblingPhone" placeholder="+628123456789">
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input class="form-control" type="email" name="siblingEmail" placeholder="johndoe@smkstlouis.sch.id">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Education</label>
+                  <input class="form-control" type="text" name="siblingEducation" placeholder="SMA Sederajat">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Job</label>
+                  <input class="form-control" type="text" name="siblingJob" placeholder="Ex : Teacher" required>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="tab-pane fade" id="custom-content-below-settings" role="tabpanel" aria-labelledby="custom-content-below-settings-tab">
-            <h1>Coming Soon</h1>
+          <div class="tab-pane fade" id="custom-content-below-files" role="tabpanel" aria-labelledby="custom-content-below-files-tab">
+            <h3>Upload Complimentary Documents</h3>
+            <div class="row" id="title">
+              <div class="col-6">
+                <label>Browse File</label>
+              </div>
+              <div class="col-4">
+                <label>Description</label>
+              </div>
+            </div>
+            <div class="row" id="firstFile">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="studentPhoto" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <small><strong>Allowed format .jpg .png .pdf</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <input class="form-control" type="text" name="documentDescription[]">
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-primary addButton" name="btnAdd"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+            <div class="row" id="moreFiles">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="studentPhoto" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <small><strong>Allowed format .jpg .png .pdf</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <input class="form-control" type="text" name="documentDescription[]">
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-primary addButton" name="btnAdd"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
           </div>
         </div>
     </div>

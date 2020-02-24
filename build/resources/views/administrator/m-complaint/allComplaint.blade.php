@@ -56,7 +56,7 @@
         <tbody>
         @foreach($complaints as $complaint)
         <tr>
-          <td>{{$complaint->id}}</td>
+          <td>{{$loop->iteration}}</td>
           <td>{{$complaint->name}}</td>
           <td>{{$complaint->description}}</td>
           <td>
