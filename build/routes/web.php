@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 
 
+Route::get('/admission/contact','AdmissionController@viewContact')->name('admission.contact');
+Route::get('/admission/register','AdmissionController@viewRegister')->name('admission.register');
+
 Route::get('/absent-record/{id}/confirmed','AbsentController@confirmed')->name('absent-record.confirmed'); //Confirmation Absent
 
 Route::resource('/bank','BankController');
@@ -38,3 +41,5 @@ Route::resource('/guardian','GuardianController');
 Route::resource('/student','StudentController');
 Route::resource('/absent-record','AbsentController');
 Route::resource('/medical-record','MedicalController');
+
+Route::resource('/admission','AdmissionController');
