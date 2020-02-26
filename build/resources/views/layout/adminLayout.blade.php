@@ -234,7 +234,7 @@
                </a>
              </li>
              <li class="nav-item">
-               <a href="{{route('academic-Year.index')}}" class="nav-link">
+               <a href="{{route('season.index')}}" class="nav-link">
                  <i class="far fa-circle nav-icon"></i>
                  <p>Academic Year</p>
                </a>
@@ -365,6 +365,47 @@
                <a href="#" class="nav-link">
                  <i class="far fa-circle nav-icon"></i>
                  <p>SPP</p>
+               </a>
+             </li>
+           </ul>
+         </li>
+         <li class="nav-item has-treeview">
+           <a href="#" class="nav-link">
+             <i class="nav-icon fas fa-chart-pie"></i>
+             <p>
+               Settings
+               <i class="right fas fa-angle-left"></i>
+             </p>
+           </a>
+           <ul class="nav nav-treeview">
+             <li class="nav-item">
+               <a href="#" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Academic Year</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="#" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Bank</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="#" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Class</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="#" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Department</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="#" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Religion</p>
                </a>
              </li>
            </ul>

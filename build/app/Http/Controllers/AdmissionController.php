@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Religion;
+use App\Program;
+use App\Bank;
+use App\Token;
 use Illuminate\Http\Request;
 
 class AdmissionController extends Controller
@@ -20,13 +24,30 @@ class AdmissionController extends Controller
     public function viewRegister()
     {
         //
-        return view('admission.register');
+        $banks = Bank::all();
+        $programs = Program::all();
+        $religions = Religion::all();
+        return view('admission.register',['banks'=>$banks,'programs'=>$programs,'religions'=>$religions]);
     }
 
     public function viewContact()
     {
         //
         return view('admission.contact');
+    }
+
+    public function checkToken(Request $request)
+    {
+        //
+        $param = ['code' => $request->tmToken, 'status' => 'active'];
+        $token = Token::where($param)->get();
+        if(count($token) == 1)
+        {
+          return response()->json(['status'=>'OK']);
+        }
+        else {
+          return response()->json(['status'=>'ERR']);
+        }
     }
 
     /**

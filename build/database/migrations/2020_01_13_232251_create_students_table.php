@@ -38,6 +38,10 @@ class CreateStudentsTable extends Migration
             $table->double('height')->nullable();
             $table->double('weight')->nullable();
             $table->string('gr_from');
+            $table->double('science_score')->nullable();
+            $table->double('mathematic_score')->nullable();
+            $table->double('english_score')->nullable();
+            $table->double('indonesian_score')->nullable();
             $table->enum('status',['reg','active','inactive','suspend','alumni']);
             $table->text('notes')->nullable();
             $table->timestamps();
@@ -51,6 +55,9 @@ class CreateStudentsTable extends Migration
             //Foreign Key to Programs Table
             $table->unsignedInteger('bank_id')->nullable();
             $table->foreign('bank_id')->references('id')->on('banks');
+            //Foreign Key to Tokens Table
+            $table->unsignedInteger('token_id')->nullable();
+            $table->foreign('token_id')->references('id')->on('tokens');
         });
     }
 

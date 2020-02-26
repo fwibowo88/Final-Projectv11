@@ -12,9 +12,9 @@
 
 @endsection
 
-@section('titleBar','IIS | Master Bank')
+@section('titleBar','IIS | Master Department')
 
-@section('pageTitle','Master Bank')
+@section('pageTitle','Master Department')
 
 @section('pageContent')
 <div class="container-fluid">
@@ -41,7 +41,7 @@
     <div class="card-footer">
       <div class="btn-group float-right">
         <a class="btn btn-danger" href="{{route('department.index')}}">Cancel</a>
-        <button type="submit" class="btn btn-primary" name="button">Save</button>
+        <button type="submit" class="btn btn-primary" name="button"><i class="fa fa-save"></i> Save</button>
       </div>
     </div>
   </form>

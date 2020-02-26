@@ -66,6 +66,8 @@ class StudentController extends Controller
         $student->email = $request->studentEmail;
         $student->bank_acc = $request->studentBAcc;
         $student->blood_type = $request->studentBlood;
+        $student->height = $request->studentHeight;
+        $student->weight = $request->studentWeight;
         $student->gr_from = $request->studentOSchool;
         $student->notes = $request->studentNotes;
         // $student->photo = "1";
@@ -113,7 +115,6 @@ class StudentController extends Controller
     {
         //
         $student = Student::find($id);
-        
         return view('administrator.m-student.detailStudent',['student'=>$student]);
     }
 

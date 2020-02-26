@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+
+use App\AcademicYear;
 use App\Student;
 use App\Employee;
 use App\AbsentRecord;
@@ -14,12 +15,28 @@ class AbsentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function filter(Request $request)
+     {
+         //
+         $stDate = $request->absentFilterStDate;
+
+         //Attritbute for Filter Parameter
+         $years = AcademicYear::all();
+         $students = Student::all();
+         //Filter Result
+         $absents = AbsentRecord::where($request->absentFilterStDate)
+                                ->orWhere($request->absentFilterYear);
+         return view('administrator.t-absent.allAbsent',['absents'=>$absents,'students'=>$students,'years'=>$years]);
+     }
+
     public function index()
     {
         //
+        $years = AcademicYear::all();
+        $students = Student::all();
         $absents = AbsentRecord::all();
-        return view('administrator.t-absent.allAbsent',['absents'=>$absents]);
-
+        return view('administrator.t-absent.allAbsent',['absents'=>$absents,'students'=>$students,'years'=>$years]);
     }
 
     /**

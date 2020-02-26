@@ -54,7 +54,7 @@ class AcademicYearController extends Controller
           $year->start_date = $request->yearStDate;
           $year->end_date = $request->yearEdDate;
           $year->save();
-          return redirect('/academic-Year')->with('status','Master Academic Year Saved Successfully !');
+          return redirect('/season')->with('status','Master Academic Year Saved Successfully !');
         }
 
     }
@@ -106,7 +106,7 @@ class AcademicYearController extends Controller
           $year->start_date = $request->yearStDate;
           $year->end_date = $request->yearEdDate;
           $year->save();
-          return redirect('/academic-Year')->with('status','Success Edit Master Academic Year');
+          return redirect('/season')->with('status','Success Edit Master Academic Year');
         }
     }
 
@@ -128,6 +128,6 @@ class AcademicYearController extends Controller
           $year->status = 'active';
         }
         $year->save();
-        return redirect('/academic-Year');
+        return redirect('/season');
     }
 }

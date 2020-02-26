@@ -18,9 +18,10 @@ class CreateDepartmentEmployeeTable extends Migration
             //Foreign Key to Employee Table
             $table->unsignedInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            //Foreign Key to AcademicYear
+            //Foreign Key to Department Table
             $table->unsignedInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->boolean('is_primary')->default(1);
             $table->timestamps();
         });
     }

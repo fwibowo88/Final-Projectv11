@@ -16,7 +16,7 @@ class CreateTokensTable extends Migration
         Schema::create('tokens', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
-            $table->enum('status',['redemeed','active','inactive']);
+            $table->enum('status',['redemeed','active','inactive'])->default('active');
             $table->timestamps();
         });
     }

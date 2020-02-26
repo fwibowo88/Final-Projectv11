@@ -25,9 +25,22 @@
 
 @section('pageContent')
 <div class="container-fluid">
-  <div class="card">
+  @if (session('status'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('status') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+  <div class="card card-primary card-outline">
     <div class="card-header">
-      <h3 class="card-title">All Master Violation in Database</h3>
+      <div class="col-sm-10">
+        <h3 class="card-title">All Master Violation in Database</h3>
+      </div>
+      <div class="col-sm-1 float-right">
+        <a class="btn btn-primary" href="{{route('violation.create')}}">Add Data</a>
+      </div>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -42,19 +55,29 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>Atributte</td>
-          <td>Wrong Uniform</td>
-          <td>-10</td>
-          <td>
-            <div class="btn-group">
-              <a class="btn btn-primary" href="#">AA</a>
-              <a class="btn btn-warning" href="#">BB</a>
-              <a class="btn btn-danger" href="#">CC</a>
-            </div>
-          </td>
-        </tr>
+          @foreach($violations as $violation)
+          <tr>
+            <td>{{$loop->iteration}}</td>
+            <td>{{$violation->name}}</td>
+            <td>{{$violation->description}}</td>
+            <td>{{$violation->point}}</td>
+            <td>
+              <form role="form" action="{{route('violation.destroy',$violation->id)}}" method="POST">
+                {{csrf_field()}}
+                {{method_field('DELETE')}}
+                <div class="btn-group">
+                  @if($violation->status == 'active')
+                  <a class="btn btn-primary" href="{{route('violation.edit',$violation->id)}}"><i class="fa fa-edit"></i></a>
+                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                  @else
+                  <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>
+                  <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
+                  @endif
+                </div>
+              </form>
+            </td>
+          </tr>
+          @endforeach
         </tbody>
         <tfoot>
           <th>#</th>

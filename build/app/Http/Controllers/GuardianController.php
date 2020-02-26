@@ -31,7 +31,8 @@ class GuardianController extends Controller
         //
         $students = Student::all();
         $religions = Religion::all();
-        return view('administrator.m-guardian.addGuardian');
+        return view('administrator.m-guardian.addGuardian',['students'=>$students,'religions'=>$religions]);
+        // dd($students);
     }
 
     /**
@@ -44,15 +45,15 @@ class GuardianController extends Controller
     {
         //
         $guardian = new Guardian;
-        $guardian->fname = $request->guardianFname;
-        $guardian->lname = $request->guardianLname;
+        $guardian->fname = $request->guardianFName;
+        $guardian->lname = $request->guardianLName;
         $guardian->b_place = $request->guardianBPlace;
         $guardian->b_date = $request->guardianBDate;
         $guardian->address = $request->guardianAddress;
         $guardian->relation = $request->guardianRelation;
         $guardian->email = $request->guardianEmail;
         $guardian->phone = $request->guardianPhone;
-        $guardian->password = $request->guardianPassword;
+        $guardian->password = bcrypt($request->guardianPassword);
         $guardian->education = $request->guardianEducation;
         $guardian->job = $request->guardianJob;
         $guardian->notes = $request->guardianNotes;
@@ -71,6 +72,8 @@ class GuardianController extends Controller
     public function show($id)
     {
         //
+        $guardian = Guardian::find($id);
+        return view('administrator.m-guardian.detailGuardian',['guardian'=>$guardian]);
     }
 
     /**
@@ -99,15 +102,15 @@ class GuardianController extends Controller
     {
         //
         $guardian = Guardian::find($id);
-        $guardian->fname = $request->guardianFname;
-        $guardian->lname = $request->guardianLname;
+        $guardian->fname = $request->guardianFName;
+        $guardian->lname = $request->guardianLName;
         $guardian->b_place = $request->guardianBPlace;
         $guardian->b_date = $request->guardianBDate;
         $guardian->address = $request->guardianAddress;
         $guardian->relation = $request->guardianRelation;
         $guardian->email = $request->guardianEmail;
         $guardian->phone = $request->guardianPhone;
-        $guardian->password = $request->guardianPassword;
+        $guardian->password = bcrypt($request->guardianPassword);
         $guardian->education = $request->guardianEducation;
         $guardian->job = $request->guardianJob;
         $guardian->notes = $request->guardianNotes;

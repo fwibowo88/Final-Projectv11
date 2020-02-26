@@ -41,7 +41,7 @@
     <div class="card-footer">
       <div class="btn-group float-right">
         <a class="btn btn-danger" href="{{route('program.index')}}">Cancel</a>
-        <button type="submit" class="btn btn-primary" name="button">Save</button>
+        <button type="submit" class="btn btn-primary" name="button"><i class="fa fa-save"></i> Save</button>
       </div>
     </div>
     </form>

@@ -27,8 +27,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
-        $departments = Department::all();
+        //View active Department Only
+        $param = ['status' => 'active'];
+        $departments = Department::where($param)->get();
         return view('administrator.m-employee.addEmployee',['departments'=>$departments]);
     }
 
@@ -75,7 +76,9 @@ class EmployeeController extends Controller
     {
         //
         $employee = Employee::find($id);
-        $departments = Department::all();
+        //View active Department Only
+        $param = ['status' => 'active'];
+        $departments = Department::where($param)->get();
         return view('administrator.m-employee.editEmployee',['employee'=>$employee,'departments'=>$departments]);
     }
 

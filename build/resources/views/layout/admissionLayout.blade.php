@@ -12,6 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>@yield('titleBar')</title>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{asset('asset/plugins/fontawesome-free/css/all.min.css')}}">
+  @yield('style')
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('asset/dist/css/adminlte.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
@@ -86,9 +87,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
+@yield('script')
 <!-- Bootstrap 4 -->
 <script src="{{asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('asset/dist/js/adminlte.min.js')}}"></script>
+@yield('customScript')
 </body>
 </html>

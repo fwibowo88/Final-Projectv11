@@ -214,7 +214,7 @@ $(".addButton").click(function(){
                   </select>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-2">
                 <div class="form-group">
                   <label>Blood Type</label>
                   <select class="form-control" name="studentBlood">
@@ -223,6 +223,20 @@ $(".addButton").click(function(){
                     <option value="O">O</option>
                     <option value="AB">AB</option>
                   </select>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label>Weight</label>
+                  <input type="number" class="form-control" min="0" name="studentWeight">
+                  <small>Weight in Kilograms (KG)</small>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label>Height</label>
+                  <input type="number" class="form-control" min="0" name="studentHeight">
+                  <small>Height in Centimeters (CM)</small>
                 </div>
               </div>
             </div>
@@ -340,7 +354,12 @@ $(".addButton").click(function(){
               <div class="col-6">
                 <div class="form-group">
                   <label>Education</label>
-                  <input class="form-control" type="text" name="siblingEducation" placeholder="SMA Sederajat">
+                  <select class="form-control" name="siblingEducation" required>
+                    <option value="SD">SD / MI Sederajat</option>
+                    <option value="SMP">SMP / MT Sederajat</option>
+                    <option value="SMA">SMA / SMK / MA Sederajat </option>
+                    <option value="Sarjana">S1/S2/S3</option>
+                  </select>
                 </div>
               </div>
               <div class="col-6">

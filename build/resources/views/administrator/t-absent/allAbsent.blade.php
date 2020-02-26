@@ -1,17 +1,28 @@
 @extends('layout.adminLayout')
 
 @section('style')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('asset/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
 @endsection
 
 @section('script')
+<!-- Select2 -->
+<script src="{{asset('asset/plugins/select2/js/select2.full.min.js')}}"></script>
 <!-- DataTables -->
 <script src="{{asset('asset/plugins/datatables/jquery.dataTables.js')}}"></script>
 <script src="{{asset('asset/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 @endsection
 
 @section('customScript')
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.js-example-basic-single').select2();
+});
+</script>
+
 <script>
   $(function () {
     $("#example1").DataTable();
@@ -33,13 +44,83 @@
     </button>
   </div>
   @endif
+  <!-- Filter-Card -->
+  <div class="card card-primary collapsed-card">
+    <div class="card-header">
+      <h3 class="card-title">Filter</h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <!-- /.card-tools -->
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <form role="form" action="{{route('absent-record.filter')}}" method="get">
+        <div class="row">
+          <div class="col-2">
+            <div class="form-group">
+              <input class="form-control" type="date" name="absentFilterStDate" value="">
+              <small><b>Start Date</b></small>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <input class="form-control" type="date" name="absentFilterEdDate" value="">
+              <small><b>End Date</b></small>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <select class="js-example-basic-single form-control" name="absentFilterSt-ID">
+                @foreach($students as $student)
+                <option value="{{$student->id}}">{{$student->nis."-".$student->fname." ".$student->lname}}</option>
+                @endforeach
+              </select>
+              <small><b>Student-ID</b></small>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <select class="form-control" name="absentFilterType">
+                <option value="A">Absent</option>
+                <option value="I">Permit (Ijin)</option>
+                <option value="S">Sick (Sakit)</option>
+                <option value="L">Late (Terlambat)</option>
+              </select>
+              <small><b>Type</b></small>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <select class="js-example-basic-single form-control" name="absentFilterYear">
+                @foreach($years as $year)
+                <option value="{{$year->id}}">{{$year->name."-".ucfirst($year->type)}}</option>
+                @endforeach
+              </select>
+              <small><b>Academic Year</b></small>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit" name="button"><i class="fa fa-search"></i> Filter</button>
+              <a class="btn btn-danger" href="{{route('absent-record.index')}}"><i class="fa fa-sync"></i> Reset</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- Filter-Card -->
   <div class="card card-primary card-outline">
     <div class="card-header">
       <div class="col-sm-10">
         <h3 class="card-title">All Absent Record in Database</h3>
       </div>
       <div class="col-sm-1 float-right">
-        <button type="button" class="btn btn-primary" name="button">Add Record</button>
+        <a class="btn btn-primary" href="{{route('absent-record.create')}}">Add Record</a>
       </div>
     </div>
     <!-- /.card-header -->

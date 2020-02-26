@@ -19,7 +19,7 @@
 @section('pageContent')
 <div class="container-fluid">
   @if (session('status'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
     {{ session('status') }}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <!-- /.card-header -->
-    <form role="form" action="{{route('academic-Year.update',$year->id)}}" method="post">
+    <form role="form" action="{{route('season.update',$year->id)}}" method="post">
       {{method_field('PUT')}}
       {{csrf_field()}}
       <div class="card-body">
@@ -75,8 +75,8 @@
     <!-- /.card-body -->
     <div class="card-footer">
       <div class="btn-group float-right">
-        <a class="btn btn-danger" href="{{route('academic-Year.index')}}">Cancel</a>
-        <button type="submit" class="btn btn-primary" name="button">Save</button>
+        <a class="btn btn-danger" href="{{route('season.index')}}">Cancel</a>
+        <button type="submit" class="btn btn-primary" name="button"><i class="fa fa-save"></i> Save</button>
       </div>
     </div>
   </form>

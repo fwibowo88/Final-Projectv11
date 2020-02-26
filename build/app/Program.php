@@ -11,4 +11,8 @@ class Program extends Model
     {
       return $this->hasMany('App\Grade');
     }
+    public function students()
+    {
+      return $this->belongsToMany('App\Student')->withTimestamps()->withPivot('is_primary');
+    }
 }

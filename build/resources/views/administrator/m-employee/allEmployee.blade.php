@@ -39,7 +39,7 @@
         <h3 class="card-title">All Master Employee in Database</h3>
       </div>
       <div class="col-sm-1 float-right">
-        <button type="button" class="btn btn-primary" name="button">Add Data</button>
+        <a class="btn btn-primary" href="{{route('employee.create')}}">Add Data</a>
       </div>
     </div>
     <!-- /.card-header -->

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     //
+    public function token()
+    {
+      return $this->belongsTo('App\Token');
+    }
     public function religion()
     {
       return $this->belongsTo('App\Religion');
@@ -22,6 +26,10 @@ class Student extends Model
     public function guardians()
     {
       return $this->hasMany('App\Guardian');
+    }
+    public function programs()
+    {
+      return $this->belongsToMany('App\Program')->withTimestamps()->withPivot('is_primary');
     }
     public function medicalRecords()
     {

@@ -39,7 +39,7 @@
         <h3 class="card-title">All Master Academic Year in Database</h3>
       </div>
       <div class="col-sm-1 float-right">
-        <button type="button" class="btn btn-primary" name="button">Add Data</button>
+        <a class="btn btn-primary" href="{{route('season.create')}}">Add Data</a>
       </div>
     </div>
     <!-- /.card-header -->
@@ -64,12 +64,12 @@
           <td>{{$year->end_date}}</td>
           <td>{{ucfirst($year->type)}}</td>
           <td>
-            <form role="form" action="{{route('academic-Year.destroy',$year->id)}}" method="POST">
+            <form role="form" action="{{route('season.destroy',$year->id)}}" method="POST">
               {{csrf_field()}}
               {{method_field('DELETE')}}
               <div class="btn-group">
                 @if($year->status == 'active')
-                <a class="btn btn-primary" href="{{route('academic-Year.edit',$year->id)}}"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-primary" href="{{route('season.edit',$year->id)}}"><i class="fa fa-edit"></i></a>
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 @else
                 <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i></a>

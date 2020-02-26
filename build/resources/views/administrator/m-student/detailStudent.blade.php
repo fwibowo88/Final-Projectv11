@@ -131,13 +131,27 @@
                     <div class="form-group row">
                       <label class="col-sm-2">Weight </label>
                       <div class="col-sm-10">
-                        {{$student->weight}}
+                        @if(is_null($student->weight))
+                        -
+                        @else
+                        {{$student->weight ."KG"}}
+                        @endif
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2">Height </label>
                       <div class="col-sm-10">
-                        {{$student->height}}
+                        @if(is_null($student->height))
+                        -
+                        @else
+                        {{$student->height ."CM"}}
+                        @endif
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2">Blood Type </label>
+                      <div class="col-sm-10">
+                        {{$student->blood_type}}
                       </div>
                     </div>
                     <div class="form-group row">
@@ -146,17 +160,27 @@
                         {{$student->gr_from}}
                       </div>
                     </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2">Bank Account</label>
+                      @if(is_null($student->bank_acc))
+                      <div class="col-sm-10">
+                        No Bank Account Recorded
+                      </div>
+                      @else
+                      <div class="col-sm-10">
+                        {{$student->bank->name." ".$student->bank_acc}}
+                      </div>
+                      @endif
+                    </div>
                     <hr>
                     <div class="form-group row">
                       <label class="col-sm-2">Guardian </label>
                       <div class="col-sm-10">
-                        @foreach($student->guardians as $guardian)
-                          @if($student->guardians->count() > 2)
-                          //Student Guardian-Multi
-                          @else
-                          {{$guardian->fname." ".$guardian->lname."-".$guardian->relation}}
-                          @endif
-                        @endforeach
+                        <ul>
+                          @foreach($student->guardians as $guardian)
+                          <li>{{$guardian->fname." ".$guardian->lname."-".$guardian->relation}}</li>
+                          @endforeach
+                        </ul>
                       </div>
                     </div>
                   </div>
