@@ -18,7 +18,7 @@ class CreateStudentsTable extends Migration
             $table->string('nik',20)->nullable()->unique();
             $table->string('nisn',20)->nullable()->unique();
             $table->string('nis',20)->nullable()->unique();
-            $table->string('password',20);
+            $table->text('password');
             $table->string('fname');
             $table->string('lname');
             $table->enum('gender',['male','female']);

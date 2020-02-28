@@ -5,10 +5,17 @@
 @endsection
 
 @section('script')
-
+<!-- bs-custom-file-input -->
+<script src="{{asset('asset/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 @endsection
 
 @section('customScript')
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
 <script type="text/javascript">
 $(document).ready(function(){
   $('#Password ,#RePassword').keyup(function(){
@@ -36,6 +43,7 @@ function passwordMatch()
   }
 }
 </script>
+
 <script type="text/javascript">
 function getStudentAddress()
 {
@@ -44,13 +52,6 @@ function getStudentAddress()
 }
 </script>
 
-<script type="text/javascript">
-$("#moreFiles").hide();
-$(".addButton").click(function(){
-    var html = $("#moreFiles").html();
-    $("#firstFile").append(html);
-});
-</script>
 @endsection
 
 @section('titleBar','IIS | Master Student')
@@ -78,6 +79,9 @@ $(".addButton").click(function(){
             <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Profile & Account</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" id="custom-content-below-achievment-tab" data-toggle="pill" href="#custom-content-below-achievment" role="tab" aria-controls="custom-content-below-achievment" aria-selected="false">Achievment</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" id="custom-content-below-sibling-tab" data-toggle="pill" href="#custom-content-below-sibling" role="tab" aria-controls="custom-content-below-sibling" aria-selected="false">Sibling</a>
           </li>
           <li class="nav-item">
@@ -86,6 +90,18 @@ $(".addButton").click(function(){
         </ul>
         <div class="tab-content" id="custom-content-below-tabContent">
           <div class="tab-pane fade active show" id="custom-content-below-primary" role="tabpanel" aria-labelledby="custom-content-below-primary-tab">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Program</label>
+                  <select class="form-control" name="studentProgram[]">
+                    @foreach($programs as $program)
+                    <option value="{{$program->id}}">{{$program->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -273,9 +289,49 @@ $(".addButton").click(function(){
                 </div>
                 <div class="form-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="studentPhoto" id="customFile">
+                    <input type="file" class="custom-file-input" name="studentPhoto">
                     <label class="custom-file-label" for="customFile">Choose file</label>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="custom-content-below-achievment" role="tabpanel" aria-labelledby="custom-content-below-achievment-tab">
+            <div class="row">
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Indonesian Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" name="studentIDN">
+                  <small> Nilai Ujian B.Indonesia (Scale 0-100)</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label>English Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" name="studentENG">
+                  <small> Nilai Ujian B.Inggris (Scale 0-100)</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Mathematic Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" name="studentMTH">
+                  <small> Nilai Ujian Matematika (Scale 0-100)</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Science Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" name="studentSCI">
+                  <small> Nilai Ujian IPA (Scale 0-100)</small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Total Final Exam Score</label><small> (Total Nilai UN-SKHUN)</small>
+                  <input class="form-control" type="number" min="0" name="studentTotalScore">
                 </div>
               </div>
             </div>
@@ -369,6 +425,18 @@ $(".addButton").click(function(){
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Guardian ID</label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="siblingID" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <small><strong>Allowed format .jpg .png .pdf</strong></small>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="tab-pane fade" id="custom-content-below-files" role="tabpanel" aria-labelledby="custom-content-below-files-tab">
             <h3>Upload Complimentary Documents</h3>
@@ -380,38 +448,74 @@ $(".addButton").click(function(){
                 <label>Description</label>
               </div>
             </div>
-            <div class="row" id="firstFile">
+            <div class="row">
               <div class="col-6">
                 <div class="form-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="studentPhoto" id="customFile">
+                    <input type="file" class="custom-file-input" name="studentDocument[]" id="customFile">
                     <label class="custom-file-label" for="customFile">Choose file</label>
                     <small><strong>Allowed format .jpg .png .pdf</strong></small>
                   </div>
                 </div>
               </div>
               <div class="col-4">
-                <input class="form-control" type="text" name="documentDescription[]">
-              </div>
-              <div class="col-2">
-                <button type="button" class="btn btn-primary addButton" name="btnAdd"><i class="fa fa-plus"></i></button>
+                <input class="form-control" type="text" value="Ijazah SD-Verified" name="stDocumentDescription[]">
               </div>
             </div>
-            <div class="row" id="moreFiles">
+            <div class="row">
               <div class="col-6">
                 <div class="form-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="studentPhoto" id="customFile">
+                    <input type="file" class="custom-file-input" name="studentDocument[]" id="customFile">
                     <label class="custom-file-label" for="customFile">Choose file</label>
                     <small><strong>Allowed format .jpg .png .pdf</strong></small>
                   </div>
                 </div>
               </div>
               <div class="col-4">
-                <input class="form-control" type="text" name="documentDescription[]">
+                <input class="form-control" type="text" value="Ijazah SMP-Verified" name="stDocumentDescription[]">
               </div>
-              <div class="col-2">
-                <button type="button" class="btn btn-primary addButton" name="btnAdd"><i class="fa fa-plus"></i></button>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="studentDocument[]" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <small><strong>Allowed format .jpg .png .pdf</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <input class="form-control" type="text" value="SKHUN SMP-Verified" name="stDocumentDescription[]">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="studentDocument[]" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <small><strong>Allowed format .jpg .png .pdf</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <input class="form-control" type="text" value="Kartu Keluarga" name="stDocumentDescription[]">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="studentDocument[]" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <small><strong>Allowed format .jpg .png .pdf</strong></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <input class="form-control" type="text" value="Surat Keterangan Sehat" name="stDocumentDescription[]">
               </div>
             </div>
           </div>
@@ -420,7 +524,7 @@ $(".addButton").click(function(){
     <!-- /.card-body -->
     <div class="card-footer">
       <div class="btn-group float-right">
-        <a class="btn btn-danger" href="{{route('bank.index')}}">Cancel</a>
+        <a class="btn btn-danger" href="{{route('student.index')}}">Cancel</a>
         <button type="submit" class="btn btn-primary" name="button">Save</button>
       </div>
     </div>

@@ -1,15 +1,37 @@
 @extends('layout.adminLayout')
 
 @section('style')
+<!-- DataTables -->
+<link rel="stylesheet" href="{{asset('asset/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
 
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="{{asset('asset/plugins/ekko-lightbox/ekko-lightbox.css')}}">
 @endsection
 
 @section('script')
-
+<!-- DataTables -->
+<script src="{{asset('asset/plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('asset/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<!-- Ekko Lightbox -->
+<script src="{{asset('asset/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
 @endsection
 
 @section('customScript')
-
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    });
+</script>
+<script type="text/javascript">
+$(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+  })
+</script>
 @endsection
 
 @section('titleBar','IIS | Master Student')
@@ -25,7 +47,7 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="{{asset('app-data/student/photo/s_img-').$student->nik}}" alt="User profile picture">
+                  <img class="profile-user-img img-fluid img-circle" src="{{asset('system-data/students/'.$student->id.'/profile-'.$student->nik)}}" alt="User profile picture">
                 </div>
 
                 <h3 class="profile-username text-center">{{$student->fname." ".$student->lname}}</h3>
@@ -34,13 +56,13 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>NIS</b> <a class="float-right">{{$student->nis}}</a>
+                    <b>NIS</b> <a class="float-right">@if(isset($student->nis)){{$student->nis}}@else-@endif</a>
                   </li>
                   <li class="list-group-item">
-                    <b>NISN</b> <a class="float-right">{{$student->nisn}}</a>
+                    <b>NISN</b> <a class="float-right">@if(isset($student->nisn)){{$student->nisn}}@else-@endif</a>
                   </li>
                   <li class="list-group-item">
-                    <b>NIK</b> <a class="float-right">{{$student->nik}}</a>
+                    <b>NIK</b> <a class="float-right">@if(isset($student->nik)){{$student->nik}}@else-@endif</a>
                   </li>
                 </ul>
 
@@ -66,9 +88,11 @@
                 <hr>
 
                 <strong><i class="fas fa-map-marker-alt mr-1"></i> Program</strong>
-
-                <p class="text-muted">STUDENT-PROGRAM</p>
-
+                @foreach($student->programs as $stProgram)
+                @if($stProgram->pivot->is_primary == 1)
+                <p class="text-muted">{{$stProgram->name}}</p>
+                @endif
+                @endforeach
                 <hr>
 
                 <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
@@ -93,11 +117,19 @@
           </div>
           <!-- /.col -->
           <div class="col-md-9">
+            @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ session('status') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profile</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#report" data-toggle="tab">Report</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#files" data-toggle="tab">Documents & Files</a></li>
                   <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
               </div><!-- /.card-header -->
@@ -113,7 +145,7 @@
                     <div class="form-group row">
                       <label class="col-sm-2">Gender </label>
                       <div class="col-sm-10">
-                        {{$student->gender}}
+                        {{ucfirst($student->gender)}}
                       </div>
                     </div>
                     <div class="form-group row">
@@ -185,8 +217,46 @@
                     </div>
                   </div>
                   <!-- /.tab-pane -->
-                  <div class="tab-pane" id="report">
-                    <h1>Coming Soonn</h1>
+                  <div class="tab-pane" id="files">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr class="text-center">
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>File Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @foreach($student->files as $stFile)
+                      <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td class="text-center">
+                          <a href="{{asset('system-data/students/'.$student->id.'/'.$stFile->file_name)}}" data-toggle="lightbox">
+                          <img height="40" width="40" src="{{asset('system-data/students/'.$student->id.'/'.$stFile->file_name)}}" alt="{{$stFile->file_name}}"></a>
+                        </td>
+                        <td>{{$stFile->file_name}}</td>
+                        <td>{{$stFile->description}}</td>
+                        <td>
+                          <form role="form" action="{{route('file.destroy',$stFile->id)}}" method="POST">
+                            {{csrf_field()}}
+                            {{method_field('DELETE')}}
+                            <button class="btn btn-danger" type="submit" name="button"><i class="fa fa-trash"></i> Delete</button></td>
+                          </form>
+                      </tr>
+                      @endforeach
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>File Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                      </tr>
+                      </tfoot>
+                    </table>
                   </div>
                   <!-- /.tab-pane -->
 

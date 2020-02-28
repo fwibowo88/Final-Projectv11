@@ -7,6 +7,7 @@ use App\AcademicYear;
 use App\Student;
 use App\Employee;
 use App\AbsentRecord;
+use App\Files;
 
 class AbsentController extends Controller
 {
@@ -59,16 +60,37 @@ class AbsentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Get Active Season
+        $activeSeason = AcademicYear::where('status',1)
+                                    ->orderBy('start_date','desc')
+                                    ->take(1)
+                                    ->get();
+
         $absent = new AbsentRecord;
         $absent->start_date = $request->absentStDate;
-        $absent->end_date = $request->absentEdDate;
+        $absent->end_date = $request->absent = ('A'|'L') ? $request->absentStDate : $request->absentEdDate;
         $absent->type = $request->absentType;
         $absent->description = $request->absentDescription;
         $absent->status = 'confirmed';
         $absent->student_id = $request->absentStudent;
         $absent->employee_id = 1;//Binding to Auth User
+        $absent->year_id = $activeSeason[0]->id;
         $absent->save();
+
+        // Receipt Upload File Handling
+        if(isset($request->absentReceiptFile))
+        {
+          // Check File Type
+          $tmReceipt = $request->absentReceiptFile;
+          if($tmReceipt->getClientOriginalExtension() == 'png' || $tmReceipt->getClientOriginalExtension() == 'jpg' || $tmReceipt->getClientOriginalExtension() == 'pdf')
+          {
+            $tmReceipt->move('system-data/students/'.$request->absentStudent.'/transaction',"abs-".date('dmY').".".$tmReceipt->getClientOriginalExtension());
+          }
+          else {
+            $message = "Upload Profile Picture Failed";
+          }
+        }
+
         return redirect('/absent-record')->with('status','Absent Record Saved Successfully');
     }
 

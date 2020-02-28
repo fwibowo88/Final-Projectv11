@@ -1,15 +1,26 @@
 @extends('layout.adminLayout')
 
 @section('style')
-
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="{{asset('asset/plugins/ekko-lightbox/ekko-lightbox.css')}}">
 @endsection
 
 @section('script')
-
+<!-- Ekko Lightbox -->
+<script src="{{asset('asset/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
 @endsection
 
 @section('customScript')
-
+<script type="text/javascript">
+$(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+  })
+</script>
 @endsection
 
 @section('titleBar','IIS | Absent Record')
@@ -21,7 +32,7 @@
   <div class="card card-primary">
     <div class="card-header">
       <div class="col-sm-10">
-        <h2 class="card-title">Create Absent Record</h2>
+        <h2 class="card-title">View Absent Record</h2>
       </div>
     </div>
     <!-- /.card-header -->
@@ -73,11 +84,10 @@
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="customFile">Custom File</label>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="customFile">
-              <img src="#" alt="receiptAbsent{{$absent->id}}">
-            </div>
+            <label>Custom File</label>
+            <p class="text-center"><a href="{{asset('system-data/students/'.$absent->student->id.'/transaction/'.'abs-'.date('dmY',strtotime($absent->start_date)).'.png')}}" data-toggle="lightbox">
+              <img height="75" width="75" src="{{asset('system-data/students/'.$absent->student->id.'/transaction/'.'abs-'.date('dmY',strtotime($absent->start_date)).'.png')}}" alt="absent-receipt">
+            </a></p>
           </div>
         </div>
       </div>

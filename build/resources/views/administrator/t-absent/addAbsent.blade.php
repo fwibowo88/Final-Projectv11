@@ -9,6 +9,8 @@
 @section('script')
 <!-- Select2 -->
 <script src="{{asset('asset/plugins/select2/js/select2.full.min.js')}}"></script>
+<!-- bs-custom-file-input -->
+<script src="{{asset('asset/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 @endsection
 
 @section('customScript')
@@ -17,6 +19,13 @@ $(document).ready(function() {
   $('.js-example-basic-single').select2();
 });
 </script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
 <script type="text/javascript">
 $(document).ready(function(){
   $("#absentType").change(function(){
@@ -46,7 +55,7 @@ $(document).ready(function(){
       </div>
     </div>
     <!-- /.card-header -->
-    <form role="form" action="{{route('absent-record.store')}}" method="post">
+    <form role="form" action="{{route('absent-record.store')}}" method="post" enctype="multipart/form-data">
       {{csrf_field()}}
     <div class="card-body">
       <div class="row">
@@ -97,9 +106,9 @@ $(document).ready(function(){
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="customFile">Custom File</label>
+            <label>Receipt Upload</label>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="customFile">
+              <input type="file" class="custom-file-input" name="absentReceiptFile">
               <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
           </div>

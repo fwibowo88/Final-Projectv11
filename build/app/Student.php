@@ -31,6 +31,10 @@ class Student extends Model
     {
       return $this->belongsToMany('App\Program')->withTimestamps()->withPivot('is_primary');
     }
+    public function files()
+    {
+      return $this->hasMany('App\File');
+    }
     public function medicalRecords()
     {
       return $this->hasMany('App\MedicalRecord');

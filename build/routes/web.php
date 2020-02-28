@@ -40,3 +40,4 @@ Route::resource('/guardian','GuardianController');
 Route::resource('/student','StudentController');
 Route::resource('/absent-record','AbsentController');
 Route::resource('/medical-record','MedicalController');
+Route::resource('/file','FileController');

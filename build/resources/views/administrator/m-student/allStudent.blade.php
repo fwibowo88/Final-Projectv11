@@ -63,16 +63,21 @@
         <tr>
           <td>{{$loop->iteration}}</td>
           <td>{{$student->nis}}</td>
-          <td class="text-center"><img src="{{asset('app-data/student/photo/s_img-').$student->nik}}" height="40" width="40" alt="s_img{{$student->nik}}"></td>
+          <td class="text-center"><img src="{{asset('system-data/students/'.$student->id.'/profile-'.$student->nik)}}" height="40" width="40" alt="{{'pro-'.$student->nik}}"></td>
           <td>{{$student->fname ." ".$student->lname}}</td>
           <td>$student->grade->name</td>
-          <td>$student->program->name</td>
+          <td>@foreach($student->programs as $stProgram)
+            @if($stProgram->pivot->is_primary == 1)
+            {{$stProgram->name}}
+            @endif
+            @endforeach
+          </td>
+          <td>{{$student->guardians[0]->fname." ".$student->guardians[0]->lname}}</td>
           @if($student->status == 'active')
           <td><span class="badge badge-success">{{ucfirst($student->status)}}</span></td>
           @else
           <td><span class="badge badge-warning">{{ucfirst($student->status)}}</span></td>
           @endif
-          <td>{{$student->guardians[0]->fname." ".$student->guardians[0]->lname}}</td>
           <td>
             <form role="form" action="{{route('student.destroy',$student->id)}}" method="POST">
               {{csrf_field()}}

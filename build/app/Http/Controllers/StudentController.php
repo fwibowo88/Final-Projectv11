@@ -8,6 +8,8 @@ use App\Bank;
 use App\Grade;
 use App\Student;
 use App\Guardian;
+use App\Program;
+use App\File;
 
 class StudentController extends Controller
 {
@@ -30,11 +32,12 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
-        $religions = Religion::all();
-        $banks = Bank::all();
-        $classes = Grade::all();
-        return view('administrator.m-student.addStudent',['religions'=>$religions,'banks'=>$banks,'classes'=>$classes]);
+        //Get All Active Master Data
+        $religions = Religion::where('status','active')->get();
+        $banks = Bank::where('status','active')->get();
+        $classes = Grade::where('status','active')->get();
+        $program = Program::where('status','active')->get();
+        return view('administrator.m-student.addStudent',['religions'=>$religions,'banks'=>$banks,'classes'=>$classes,'programs'=>$program]);
     }
 
     /**
@@ -50,7 +53,7 @@ class StudentController extends Controller
         $student->nik = $request->studentNik;
         $student->nisn = $request->studentNisn;
         $student->nis = $request->studentNis;
-        $student->password = $request->studentPassword;
+        $student->password = bcrypt($request->studentPassword);
         $student->fname = $request->studentFname;
         $student->lname = $request->studentLname;
         $student->b_place = $request->studentBPlace;
@@ -69,21 +72,52 @@ class StudentController extends Controller
         $student->height = $request->studentHeight;
         $student->weight = $request->studentWeight;
         $student->gr_from = $request->studentOSchool;
+        $student->science_score = $request->studentSCI;
+        $student->mathematic_score = $request->studentMTH;
+        $student->indonesian_score = $request->studentIDN;
+        $student->english_score = $request->studentENG;
         $student->notes = $request->studentNotes;
-        // $student->photo = "1";
         $student->religion_id = $request->studentReligion;
         $student->class_id = $request->studentClass;
         $student->bank_id = $request->studentBank;
         $student->save();
-
-        if(is_null($request->studentPhoto))
+        //
+        // Sync Student to Program
+        $student->programs()->sync([$request->studentProgram[0],['is_primary'=>true]]);
+        //
+        // Student Photo File Handling
+        if(isset($request->studentPhoto))
         {
-
+          // Check File Type
+          $tmStudentPhoto = $request->studentPhoto;
+          if($tmStudentPhoto->getClientOriginalExtension() == 'png' || $tmStudentPhoto->getClientOriginalExtension() == 'jpg' || $tmStudentPhoto->getClientOriginalExtension() == 'pdf')
+          {
+            $tmStudentPhoto->move('system-data/students/'.$student->id.'/',"profile-".$request->studentNik);
+          }
+          else {
+            $message = "Upload Profile Picture Failed";
+          }
         }
-        else {
-          // code...
-          $file = $request->studentPhoto;
-          $file->move('system-data',"s_img-".$request->studentNik);
+        //Save All Document to Database & Server
+        if(isset($request->studentDocument))
+        {
+          $tmDocumentDescription = $request->stDocumentDescription;
+          $tmStudentDocuments = $request->studentDocument;
+          foreach($tmStudentDocuments as $tmStudentDoc)
+          {
+            if($tmStudentDoc->getClientOriginalExtension() == 'png' || $tmStudentDoc->getClientOriginalExtension() == 'jpg' || $tmStudentDoc->getClientOriginalExtension() == 'pdf')
+            {
+              $tmStudentDoc->move('system-data/students/'.$student->id.'/', $tmStudentDoc->getClientOriginalName());
+              $file = new File;
+              $file->file_name = $tmStudentDoc->getClientOriginalName();
+              $file->description = $tmStudentDoc->getClientOriginalName();
+              $file->student_id = $student->id;
+              $file->save();
+            }
+            else {
+              $message = "Something Error with Documents";
+            }
+          }
         }
 
         $sibling = new Guardian();
@@ -100,8 +134,25 @@ class StudentController extends Controller
         $sibling->job = $request->siblingJob;
         $sibling->relation = $request->siblingRelation;
         $sibling->religion_id = $request->siblingReligion;
-        $sibling->student_id = $student->id;
-        $sibling->save();
+        $student->guardians()->save($sibling);
+
+        if(isset($request->siblingID))
+        {
+          $tmSiblingID = $request->siblingID;
+          if($tmSiblingID->getClientOriginalExtension() == 'png' || $tmSiblingID->getClientOriginalExtension() == 'jpg' || $tmSiblingID->getClientOriginalExtension() == 'pdf')
+          {
+            $tmSiblingID->move('system-data/students/'.$student->id.'/', 'sibling-'.$student->id."-".$sibling->id."-".$tmSiblingID->getClientOriginalName());
+            $file = new File;
+            $file->file_name = 'sibling-'.$student->id."-".$sibling->id."-".$tmSiblingID->getClientOriginalName();
+            $file->description = $tmSiblingID->getClientOriginalName();
+            $file->student_id = $student->id;
+            $file->save();
+          }
+          else {
+            $message = "Something Error with Documents";
+          }
+        }
+        //
         return redirect('/student')->with('status','Master Student Saved Successfully !');
     }
 
