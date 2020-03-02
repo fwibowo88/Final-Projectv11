@@ -68,7 +68,6 @@
           <td>{{$employee->email}}</td>
           @if($employee->status == 'active')
           <td><span class="badge badge-success">{{ucfirst($employee->status)}}</span></td>
-          <!-- <span class="badge badge-success">Success</span> -->
           @else
           <td><span class="badge badge-danger">{{ucfirst($employee->status)}}</span></td>
           @endif

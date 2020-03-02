@@ -42,6 +42,7 @@ class CreateStudentsTable extends Migration
             $table->double('mathematic_score')->nullable();
             $table->double('english_score')->nullable();
             $table->double('indonesian_score')->nullable();
+            $table->double('total_score')->nullable();
             $table->enum('status',['reg','active','inactive','suspend','alumni']);
             $table->text('notes')->nullable();
             $table->timestamps();

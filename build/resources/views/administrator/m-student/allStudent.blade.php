@@ -65,7 +65,12 @@
           <td>{{$student->nis}}</td>
           <td class="text-center"><img src="{{asset('system-data/students/'.$student->id.'/profile-'.$student->nik)}}" height="40" width="40" alt="{{'pro-'.$student->nik}}"></td>
           <td>{{$student->fname ." ".$student->lname}}</td>
-          <td>$student->grade->name</td>
+          <td>@if(isset($student->class_id))
+            {{$student->grade->id}}
+            @else
+            {{$student->class_id}}
+            @endif
+          </td>
           <td>@foreach($student->programs as $stProgram)
             @if($stProgram->pivot->is_primary == 1)
             {{$stProgram->name}}

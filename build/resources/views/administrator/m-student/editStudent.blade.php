@@ -1,15 +1,29 @@
 @extends('layout.adminLayout')
 
 @section('style')
-
+<!-- Select2 -->
+<link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 @endsection
 
 @section('script')
-
+<!-- Select2 -->
+<script src="{{asset('asset/plugins/select2/js/select2.full.min.js')}}"></script>
+<!-- bs-custom-file-input -->
+<script src="{{asset('asset/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 @endsection
 
 @section('customScript')
-
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.js-example-basic-single').select2();
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
 @endsection
 
 @section('titleBar','IIS | Master Student')
@@ -25,7 +39,7 @@
       </div>
     </div>
     <!-- /.card-header -->
-    <form role="form" action="{{route('student.update',$student->id)}}" method="post">
+    <form role="form" action="{{route('student.update',$student->id)}}" method="post" enctype="multipart/form-data">
       {{method_field('PUT')}}
       {{csrf_field()}}
       <div class="card-body">
@@ -37,10 +51,7 @@
             <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">Profile & Account</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="custom-content-below-sibling-tab" data-toggle="pill" href="#custom-content-below-sibling" role="tab" aria-controls="custom-content-below-sibling" aria-selected="false">Sibling</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#custom-content-below-settings" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">Other</a>
+            <a class="nav-link" id="custom-content-below-achievment-tab" data-toggle="pill" href="#custom-content-below-achievment" role="tab" aria-controls="custom-content-below-achievment" aria-selected="false">Achievment</a>
           </li>
         </ul>
         <div class="tab-content" id="custom-content-below-tabContent">
@@ -136,6 +147,36 @@
             <div class="row">
               <div class="col-6">
                 <div class="form-group">
+                  <label>Program</label>
+                  <select class="form-control" name="studentProgram">
+                    @foreach($programs as $program)
+                    @if($program->id == $student->program_id)
+                    <option value="{{$program->id}}" selected>{{$program->name}}</option>
+                    @else
+                    <option value="{{$program->id}}">{{$program->name}}</option>
+                    @endif
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Class</label>
+                  <select class="js-example-basic-single form-control" name="studentClass" required>
+                    @foreach($classes as $class)
+                    @if($class->id == $student->class_id)
+                    <option value="{{$class->id}}" selected>{{$class->name}}</option>
+                    @else
+                    <option value="{{$class->id}}">{{$class->name}}</option>
+                    @endif
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
                   <label>Email</label>
                   <input type="email" name="studentEmail" class="form-control" value="{{$student->email}}" required>
                 </div>
@@ -144,21 +185,6 @@
                 <div class="form-group">
                   <label>Phone</label>
                   <input type="text" name="studentPhone" class="form-control" value="{{$student->phone}}" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <label>Password</label>
-                  <input type="password" id="Password" name="studentPassword" class="form-control">
-                  <small>Fill this Field to Change Your Password</small>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <label>Re Type Password</label>
-                  <input type="password" id="RePassword" name="studentRePassword" class="form-control">
                 </div>
               </div>
             </div>
@@ -250,11 +276,45 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="custom-content-below-sibling" role="tabpanel" aria-labelledby="custom-content-below-sibling-tab">
-             <h1>Coming Soon</h1>
-          </div>
-          <div class="tab-pane fade" id="custom-content-below-settings" role="tabpanel" aria-labelledby="custom-content-below-settings-tab">
-            <h1>Coming Soon</h1>
+          <div class="tab-pane fade" id="custom-content-below-achievment" role="tabpanel" aria-labelledby="custom-content-below-achievment-tab">
+            <div class="row">
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Indonesian Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" value="{{$student->indonesian_score}}" name="studentIDN">
+                  <small> Nilai Ujian B.Indonesia (Scale 0-100)</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label>English Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" value="{{$student->english_score}}" name="studentENG">
+                  <small> Nilai Ujian B.Inggris (Scale 0-100)</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Mathematic Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" value="{{$student->mathematic_score}}" name="studentMTH">
+                  <small> Nilai Ujian Matematika (Scale 0-100)</small>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Science Exam Score</label>
+                  <input class="form-control" type="number" min="0" max="100" value="{{$student->science_score}}" name="studentSCI">
+                  <small> Nilai Ujian IPA (Scale 0-100)</small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Total Final Exam Score</label><small> (Total Nilai UN-SKHUN)</small>
+                  <input class="form-control" type="number" min="0" value="{{$student->total_score}}" name="studentTotalScore">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
     </div>

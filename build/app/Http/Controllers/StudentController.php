@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Religion;
 use App\Bank;
 use App\Grade;
@@ -22,7 +23,17 @@ class StudentController extends Controller
     {
         //
         $students = Student::all();
-        return view('administrator.m-student.allStudent',['students'=>$students]);
+        // // dd($students);
+        foreach($students as $student)
+        {
+          return $student->class_id;
+          // return $tmClass = Grade::find($student->class_id)->name;
+          // foreach($student->grade as $stGrade)
+          // {
+          //   return 'ok';
+          // }
+        }
+        //return view('administrator.m-student.allStudent',['students'=>$students]);
     }
 
     /**
@@ -76,6 +87,7 @@ class StudentController extends Controller
         $student->mathematic_score = $request->studentMTH;
         $student->indonesian_score = $request->studentIDN;
         $student->english_score = $request->studentENG;
+        $student->total_score = $request->studentTotalScore;
         $student->notes = $request->studentNotes;
         $student->religion_id = $request->studentReligion;
         $student->class_id = $request->studentClass;
@@ -180,8 +192,10 @@ class StudentController extends Controller
         //
         $religions = Religion::all();
         $banks = Bank::all();
+        $programs = Program::all();
+        $classes = Grade::all();
         $student = Student::find($id);
-        return view('administrator.m-student.editStudent',['student'=>$student,'religions'=>$religions,'banks'=>$banks]);
+        return view('administrator.m-student.editStudent',['student'=>$student,'religions'=>$religions,'banks'=>$banks,'programs'=>$programs,'classes'=>$classes]);
     }
 
     /**
@@ -198,14 +212,13 @@ class StudentController extends Controller
         $student->nik = $request->studentNik;
         $student->nisn = $request->studentNisn;
         $student->nis = $request->studentNis;
-        $student->password = $request->studentPassword;
         $student->fname = $request->studentFname;
         $student->lname = $request->studentLname;
         $student->b_place = $request->studentBPlace;
         $student->b_date = $request->studentBDate;
         $student->address = $request->studentAddress;
         $student->district = $request->studentDistrict;
-        $student->sub_disctrict = $request->studentSubDistrict;
+        $student->sub_district = $request->studentSubDistrict;
         $student->rt = $request->studentRT;
         $student->rw = $request->studentRW;
         $student->city = $request->studentCity;
@@ -216,11 +229,29 @@ class StudentController extends Controller
         $student->blood_type = $request->studentBlood;
         $student->gr_from = $request->studentOSchool;
         $student->notes = $request->studentNotes;
-        $student->photo = "";
+        $student->science_score = $request->studentSCI;
+        $student->mathematic_score = $request->studentMTH;
+        $student->indonesian_score = $request->studentIDN;
+        $student->english_score = $request->studentENG;
+        $student->total_score = $request->studentTotalScore;
         $student->religion_id = $request->studentReligion;
         $student->class_id = $request->studentClass;
-        $student->bank = $request->studentBank;
+        $student->bank_id = $request->studentBank;
         $student->save();
+
+        if(isset($request->studentPhoto))
+        {
+          // Check File Type
+          $tmStudentPhoto = $request->studentPhoto;
+          if($tmStudentPhoto->getClientOriginalExtension() == 'png' || $tmStudentPhoto->getClientOriginalExtension() == 'jpg' || $tmStudentPhoto->getClientOriginalExtension() == 'pdf')
+          {
+            $tmStudentPhoto->move('system-data/students/'.$student->id.'/',"profile-".$request->studentNik);
+          }
+          else {
+            $message = "Upload Profile Picture Failed";
+          }
+        }
+
         return redirect('/student')->with('status','Success Edit Master Student');
     }
 
